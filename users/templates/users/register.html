@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<!-- MESSAGE SECTION -->
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.level == 40 %}
+        <div
+          class="shadow-custom messages alert alert-danger col-lg-5 mx-auto text-center mt-5"
+        >
+      {% else %}
+        <div
+          class="shadow-custom messages alert alert-success col-lg-5 mx-auto text-center mt-5"
+        >
+      {% endif %}
+        {{ message }}
+        <a href="" class="close">x</a>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- REGISTRATION CARD -->
+  <div class="card shadow-custom border-0 col-lg-5 mx-auto my-5 p-4 blur-box">
+    <h3 class="py-2 font-weight-bold text-white text-center">
+      Register
+    </h3>
+    <form action="" method="post">
+      <div class="form-group">
+        {% csrf_token %}
+        <div class="input-field">
+          <label for="first_name">First name</label>
+          {{ user_form.first_name }}
+        </div>
+        <div class="input-field">
+          <label for="last_name">Last name</label>
+          {{ user_form.last_name }}
+        </div>
+        <div class="input-field">
+          <label for="email">Email</label>
+          {{ user_form.email }}
+        </div>
+        <div class="input-field">
+          <label for="password">Password</label>
+          {{ user_form.password }}
+        </div>
+        <div class="input-field">
+          <label for="password2">Repeat password</label>
+          {{ user_form.password2 }}
+        </div>
+      </div>
+      <button class="btn btn-block btn-danger mb-3" type="submit">
+        Register
+      </button>
+    </form>
+  </div>
+{% endblock %}
