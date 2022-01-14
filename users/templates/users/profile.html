@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+  <!-- Messages -->
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'error' %}
+      <div class="shadow-custom messages alert alert-danger text-center
+        col-lg-7 mx-auto">
+      {% else %}
+      <div class="shadow-custom messages alert alert-success text-center
+        col-lg-7 mx-auto">
+      {% endif %}
+        {{ message }}
+        <a href="" class="close">x</a>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Profile Card -->
+  <div class="card shadow-custom border-0 col-lg-7 mx-auto mb-3">
+    <h2 class="font-weight-bold text-grey mt-2">Profile</h2>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="first_name">First name</label>
+            {{ user_form.first_name }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="last_name">Last name</label>
+            {{ user_form.last_name }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="email">Email</label>
+            {{ user_form.email }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="phone_number">Phone number</label>
+            {{ profile_form.phone_number }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="address">Address</label>
+            {{ profile_form.address }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="postal_code">Postal code</label>
+            {{ profile_form.postal_code }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="city">City</label>
+            {{ profile_form.city }}
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="input-field">
+            <label for="country">Country</label>
+            {{ profile_form.country }}
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <button type="submit" class="btn btn-info mx-auto" data-toggle="tooltip" 
+          data-placement="top"
+          title="Fill in new details and click 'Update profile'">
+          Update profile
+        </button>
+      </div>
+      <hr>
+
+      <!-- Orders -->
+      <h3 class="mb-3">Your orders:</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Cost</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for order in request.user.orders.all %}
+          <tr>
+            <td>
+              <a href="{{ order.get_absolute_url }}" class="text-decoration-none">
+                Order #{{ order.id }}
+              </a>
+            </td>
+            <td>{{ order.created|date }}</td>
+            <td class="text-green">
+              ₹{{ order.get_total_cost|floatformat:2 }}
+            </td>
+            <td>{{ order.status }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">
+              <p class="text-center text">No orders display</p>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+</div>
+{% endblock %}
